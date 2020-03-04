@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Task</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .flexie {
+            display: flex;
+            align-items: center;
+        }
+        .mr-1 {
+            margin-right: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task detail</h1>
+    <div th:if="${task}">
+        <div class="flexie">
+            <h3 class="mr-1">Title: </h3>
+            <h4 th:text="${task.title}"></h4>
+        </div>
+        <div class="flexie">
+            <h3 class="mr-1">Description:</h3>
+            <h4 th:text="${task.description}"></h4>
+        </div>
+        <div class="flexie">
+            <h3 class="mr-1">Due Date:</h3>
+            <h4 th:text="${task.date.toString()}"></h4>
+        </div>
+    </div>
+d
+    <div th:if="${task == null}">
+        <h3>Task not found</h3>
+    </div>
+
+</body>
+</html>
