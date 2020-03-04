@@ -4,36 +4,28 @@
     <meta charset="UTF-8">
     <title>Task</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <style>
-        .flexie {
-            display: flex;
-            align-items: center;
-        }
-        .mr-1 {
-            margin-right: 12px;
-        }
-    </style>
 </head>
 <body>
-    <h1>Task detail</h1>
-    <div th:if="${task}">
-        <div class="flexie">
-            <h3 class="mr-1">Title: </h3>
-            <h4 th:text="${task.title}"></h4>
-        </div>
-        <div class="flexie">
-            <h3 class="mr-1">Description:</h3>
-            <h4 th:text="${task.description}"></h4>
-        </div>
-        <div class="flexie">
-            <h3 class="mr-1">Due Date:</h3>
-            <h4 th:text="${task.date.toString()}"></h4>
+    <div th:replace="general.html :: nav"></div>
+    <div class="w-75 mx-auto mt-2">
+        <h1>Task detail</h1>
+        <ul class="list-group" th:if="${task}">
+            <li class="list-group-item">
+                <b>Title: </b>
+                <span th:text="${task.title}"></span>
+            </li>
+            <li class="list-group-item">
+                <b>Description: </b>
+                <span th:text="${task.description}"></span>
+            </li>
+            <li class="list-group-item">
+                <b>Due Date: </b>
+                <span th:text="${task.getFormattedDate()}"></span>
+            </li>
+        </ul>
+        <div th:if="${task == null}">
+            <h3>Task not found</h3>
         </div>
     </div>
-d
-    <div th:if="${task == null}">
-        <h3>Task not found</h3>
-    </div>
-
 </body>
 </html>

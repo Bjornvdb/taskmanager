@@ -45,12 +45,9 @@ public class TaskController {
     }
 
     @PostMapping("/edit")
-    public String updateTask(@PathVariable long id, @ModelAttribute Task task) {
-        Task t1 = this.taskService.findOne(id);
-        t1.setTitle(task.getTitle());
-        t1.setDescription(task.getDescription());
-        t1.setDate(task.getDate());
-        return "redirect:/tasks/";
+    public String updateTask(@ModelAttribute Task task) {
+        this.taskService.update(task);
+        return "redirect:/tasks/" + task.getId();
     }
 
 }

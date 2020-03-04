@@ -16,9 +16,9 @@ public class TaskService implements TaskServiceI {
 
     public TaskService() {
         this.tasks = new ArrayList<>();
-        Task t1 = new Task(1, "Task 1", "Here is a description", LocalDateTime.now());
-        Task t2 = new Task(2, "Task 2", "Here is a description", LocalDateTime.now());
-        Task t3 = new Task(3,"Task 3", "Here is a description", LocalDateTime.now());
+        Task t1 = new Task(1, "Task 1", "Here is a description 1", LocalDateTime.now());
+        Task t2 = new Task(2, "Task 2", "Here is a description 2", LocalDateTime.now());
+        Task t3 = new Task(3,"Task 3", "Here is a description 3", LocalDateTime.now());
         this.tasks.add(t1);
         this.tasks.add(t2);
         this.tasks.add(t3);
@@ -40,8 +40,17 @@ public class TaskService implements TaskServiceI {
 
     @Override
     public void add(Task task) {
-        task.setId(this.tasks.size() + 1);
+        task.setId(this.tasks.get(this.tasks.size() - 1).getId() + 1);
         this.tasks.add(task);
+    }
+
+    @Override
+    public void update(Task task) {
+        long original = task.getId();
+        Task t = this.findOne(original);
+        t.setDate(task.getDate());
+        t.setTitle(task.getTitle());
+        t.setDescription(task.getDescription());
     }
 
 }

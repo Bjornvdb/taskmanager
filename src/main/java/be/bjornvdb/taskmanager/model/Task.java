@@ -57,7 +57,7 @@ public class Task {
     }
 
     public String getFormattedDate(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d u 'at' HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d u 'at' h a");
         return date.format(formatter);
     }
 }
