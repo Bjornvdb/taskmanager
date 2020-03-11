@@ -50,4 +50,17 @@ public class TaskController {
         return "redirect:/tasks/" + task.getId();
     }
 
+    @GetMapping("/{id}/sub/create")
+    public String showCreateSubTask(@PathVariable long id, Model model) {
+        model.addAttribute("id", id);
+        return "subTaskForm";
+    }
+
+    @PostMapping("{id}/sub/create")
+    public String createSubTask(@PathVariable long id, @ModelAttribute Task task) {
+        this.taskService.createSubTask(id, task);
+        return "redirect:/tasks/" + id;
+    }
+
+
 }

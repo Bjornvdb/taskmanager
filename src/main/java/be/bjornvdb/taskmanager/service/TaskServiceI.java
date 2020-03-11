@@ -9,4 +9,5 @@ public interface TaskServiceI {
     Task findOne(long id);
     void add(Task task);
     void update(Task task);
+    void createSubTask(long id, Task task);
 }

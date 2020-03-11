@@ -4,11 +4,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Task {
 
     private long id;
     private String title, description;
+    private List<Task> subTasks;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime date;
@@ -22,6 +25,7 @@ public class Task {
         this.title = title;
         this.description = description;
         this.date = date;
+        this.subTasks = new ArrayList<>();
     }
 
     public long getId() {
@@ -56,8 +60,21 @@ public class Task {
         this.date = date;
     }
 
-    public String getFormattedDate(){
+    public List<Task> getSubTasks() {
+        return subTasks;
+    }
+
+    public void setSubTasks(List<Task> subTasks) {
+        this.subTasks = subTasks;
+    }
+
+    public String getFormattedDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d u 'at' h a");
+        return date.format(formatter);
+    }
+
+    public String getFormattedDateHTML() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddThh:mm");
         return date.format(formatter);
     }
 }

@@ -53,4 +53,15 @@ public class TaskService implements TaskServiceI {
         t.setDescription(task.getDescription());
     }
 
+    @Override
+    public void createSubTask(long id, Task task) {
+        Task mainTask = this.findOne(id);
+        if (mainTask.getSubTasks().size() == 0) {
+            task.setId(1);
+        } else {
+            task.setId(mainTask.getSubTasks().get(mainTask.getSubTasks().size() - 1).getId() + 1);
+        }
+        mainTask.getSubTasks().add(task);
+    }
+
 }
