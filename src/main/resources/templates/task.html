@@ -4,12 +4,29 @@
     <meta charset="UTF-8">
     <title>Task</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 <body>
     <div th:replace="general.html :: nav"></div>
     <div class="w-75 mx-auto mt-2">
-        <h1>Task detail</h1>
-        <ul class="list-group" th:if="${task}">
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="/tasks">
+                <button type="button" class="btn btn-primary">
+                    <i class="fas fa-arrow-alt-circle-left"></i>
+                    Back
+                </button>
+            </a>
+            <h1>Task detail</h1>
+            <div th:if="${task}">
+                <a th:href="${task.id} + '/sub/create'">
+                    <button type="button" class="btn btn-success">
+                        <i class="fas fa-plus-circle"></i>
+                        Create SubTask
+                    </button>
+                </a>
+            </div>
+        </div>
+        <ul class="list-group mb-2" th:if="${task}">
             <li class="list-group-item">
                 <b>Title: </b>
                 <span th:text="${task.title}"></span>
@@ -23,6 +40,19 @@
                 <span th:text="${task.getFormattedDate()}"></span>
             </li>
         </ul>
+        <div th:if="${!#arrays.isEmpty(task.subTasks)}">
+            <h2>SubTasks</h2>
+            <ul th:each="subtask : ${task.subTasks}" class="list-group mb-3">
+                <li class="list-group-item">
+                    <b>Title: </b>
+                    <span th:text="${subtask.title}"></span>
+                </li>
+                <li class="list-group-item">
+                    <b>Description: </b>
+                    <span th:text="${subtask.description}"></span>
+                </li>
+            </ul>
+        </div>
         <div th:if="${task == null}">
             <h3>Task not found</h3>
         </div>
