@@ -1,20 +1,16 @@
 package be.bjornvdb.taskmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class Task {
+public class SubTask {
 
     @Id
     @GeneratedValue
@@ -28,12 +24,9 @@ public class Task {
     @NotEmpty
     private String description;
 
-    @NotNull
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime date;
-
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-    private List<SubTask> subTasks;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id")
+    private Task task;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -41,15 +34,8 @@ public class Task {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public Task() {
+    public SubTask() {
 
-    }
-
-    public Task(long id, String title, String description, LocalDateTime date) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.date = date;
     }
 
     public long getId() {
@@ -75,23 +61,6 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public List<SubTask> getSubTasks() {
-        return subTasks;
-    }
-
-    public void setSubTasks(List<SubTask> subTasks) {
-        this.subTasks = subTasks;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -108,9 +77,11 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
-    public String getFormattedDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d u 'at' h a");
-        return date.format(formatter);
+    public Task getTask() {
+        return task;
     }
 
+    public void setTask(Task task) {
+        this.task = task;
+    }
 }

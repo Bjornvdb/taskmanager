@@ -1,67 +1,56 @@
 package be.bjornvdb.taskmanager.service;
 
 
+import be.bjornvdb.taskmanager.model.SubTask;
 import be.bjornvdb.taskmanager.model.Task;
+import be.bjornvdb.taskmanager.repository.SubTaskRepository;
+import be.bjornvdb.taskmanager.repository.TaskRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService implements TaskServiceI {
 
-    private List<Task> tasks;
+    @Autowired
+    private TaskRepository taskRepository;
 
-    public TaskService() {
-        this.tasks = new ArrayList<>();
-        Task t1 = new Task(1, "Task 1", "Here is a description 1", LocalDateTime.now());
-        Task t2 = new Task(2, "Task 2", "Here is a description 2", LocalDateTime.now());
-        Task t3 = new Task(3,"Task 3", "Here is a description 3", LocalDateTime.now());
-        this.tasks.add(t1);
-        this.tasks.add(t2);
-        this.tasks.add(t3);
-    }
+    @Autowired
+    private SubTaskRepository subTaskRepository;
 
     @Override
     public List<Task> findAll() {
-        return this.tasks;
+        return this.taskRepository.findAll();
     }
 
     @Override
     public Task findOne(long id) {
-        try {
-            return this.tasks.get((int) (id - 1));
-        } catch (IndexOutOfBoundsException ex) {
-            return null;
-        }
+        return this.taskRepository.findById(id).orElse(null);
     }
 
     @Override
     public void add(Task task) {
-        task.setId(this.tasks.get(this.tasks.size() - 1).getId() + 1);
-        this.tasks.add(task);
+        this.taskRepository.save(task);
     }
 
     @Override
     public void update(Task task) {
-        long original = task.getId();
-        Task t = this.findOne(original);
-        t.setDate(task.getDate());
+        long id = task.getId();
+        Task t = this.findOne(id);
         t.setTitle(task.getTitle());
         t.setDescription(task.getDescription());
+        t.setDate(task.getDate());
+        this.taskRepository.save(t);
     }
 
     @Override
-    public void createSubTask(long id, Task task) {
-        Task mainTask = this.findOne(id);
-        if (mainTask.getSubTasks().size() == 0) {
-            task.setId(1);
-        } else {
-            task.setId(mainTask.getSubTasks().get(mainTask.getSubTasks().size() - 1).getId() + 1);
-        }
-        mainTask.getSubTasks().add(task);
+    public void createSubTask(long id, SubTask subTask) {
+        Task task = this.findOne(id);
+        subTask.setTask(task);
+        this.subTaskRepository.save(subTask);
     }
 
 }
