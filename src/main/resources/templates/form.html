@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Tasks</title>
+    <title>Create Task</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
     <div th:replace="general.html :: nav"></div>
-    <div class="w-75 mx-auto mt-2">
+    <div class="w-75 mx-auto mt-2 w-">
         <h1>New Task</h1>
         <form method="post" action="/tasks">
             <div class="form-group row">
