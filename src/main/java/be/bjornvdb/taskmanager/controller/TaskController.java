@@ -1,6 +1,8 @@
 package be.bjornvdb.taskmanager.controller;
 
 
+import be.bjornvdb.taskmanager.dto.SubTaskDTO;
+import be.bjornvdb.taskmanager.dto.TaskDTO;
 import be.bjornvdb.taskmanager.model.SubTask;
 import be.bjornvdb.taskmanager.model.Task;
 import be.bjornvdb.taskmanager.service.TaskService;
@@ -33,41 +35,41 @@ public class TaskController {
 
     @GetMapping("/new")
     public String getFormTask(Model model) {
-        model.addAttribute(new Task());
+        model.addAttribute("taskDTO", new TaskDTO());
         return "form";
     }
 
     @PostMapping()
-    public String createTask(@ModelAttribute @Valid Task task, BindingResult bindingResult) {
+    public String createTask(@ModelAttribute @Valid TaskDTO taskDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "form";
-        this.taskService.add(task);
+        this.taskService.add(taskDTO);
         return "redirect:/tasks";
     }
 
     @GetMapping("/edit/{id}")
     public String updateTaskForm(@PathVariable long id, Model model) {
-        model.addAttribute("task", this.taskService.findOne(id));
+        model.addAttribute("taskDTO", this.taskService.findOne(id));
         return "updateForm";
     }
 
     @PostMapping("/edit")
-    public String updateTask(@ModelAttribute @Valid Task task, BindingResult bindingResult) {
+    public String updateTask(@ModelAttribute @Valid TaskDTO taskDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "updateForm";
-        this.taskService.update(task);
-        return "redirect:/tasks/" + task.getId();
+        this.taskService.update(taskDTO);
+        return "redirect:/tasks/" + taskDTO.getId();
     }
 
     @GetMapping("/{id}/sub/create")
     public String showCreateSubTask(@PathVariable long id, Model model) {
         model.addAttribute("id", id);
-        model.addAttribute("subTask", new SubTask());
+        model.addAttribute("subTaskDTO", new SubTaskDTO());
         return "subTaskForm";
     }
 
     @PostMapping("{id}/sub/create")
-    public String createSubTask(@PathVariable long id, @ModelAttribute @Valid SubTask subTask, BindingResult bindingResult) {
+    public String createSubTask(@PathVariable long id, @ModelAttribute @Valid SubTask subTaskDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "subTaskForm";
-        this.taskService.createSubTask(id, subTask);
+        this.taskService.createSubTask(id, subTaskDTO);
         return "redirect:/tasks/" + id;
     }
 }

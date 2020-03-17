@@ -1,6 +1,7 @@
 package be.bjornvdb.taskmanager.service;
 
 
+import be.bjornvdb.taskmanager.dto.TaskDTO;
 import be.bjornvdb.taskmanager.model.SubTask;
 import be.bjornvdb.taskmanager.model.Task;
 import be.bjornvdb.taskmanager.repository.SubTaskRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService implements TaskServiceI {
@@ -22,34 +24,56 @@ public class TaskService implements TaskServiceI {
     private SubTaskRepository subTaskRepository;
 
     @Override
-    public List<Task> findAll() {
-        return this.taskRepository.findAll();
+    public List<TaskDTO> findAll() {
+        return this.taskRepository.findAll().stream().map(t -> {
+            TaskDTO dto = new TaskDTO();
+            dto.setId(t.getId());
+            dto.setTitle(t.getTitle());
+            dto.setDescription(t.getDescription());
+            dto.setDate(t.getDate());
+            return dto;
+        }).collect(Collectors.toList());
     }
 
     @Override
-    public Task findOne(long id) {
-        return this.taskRepository.findById(id).orElse(null);
+    public TaskDTO findOne(long id) {
+        Task t = this.taskRepository.findById(id).orElse(null);
+        if (t != null) {
+            TaskDTO taskDTO = new TaskDTO();
+            taskDTO.setId(t.getId());
+            taskDTO.setTitle(t.getTitle());
+            taskDTO.setDescription(t.getDescription());
+            taskDTO.setDate(t.getDate());
+            taskDTO.setSubTasks(t.getSubTasks());
+            return taskDTO;
+        }
+        return null;
     }
 
     @Override
-    public void add(Task task) {
+    public void add(TaskDTO taskDTO) {
+        Task task = new Task();
+        task.setTitle(taskDTO.getTitle());
+        task.setDescription(taskDTO.getDescription());
+        task.setDate(taskDTO.getDate());
         this.taskRepository.save(task);
     }
 
     @Override
-    public void update(Task task) {
-        long id = task.getId();
-        Task t = this.findOne(id);
-        t.setTitle(task.getTitle());
-        t.setDescription(task.getDescription());
-        t.setDate(task.getDate());
-        this.taskRepository.save(t);
+    public void update(TaskDTO taskDTO) {
+        Task t = this.taskRepository.findById(taskDTO.getId()).orElse(null);
+        if (t != null) {
+            t.setTitle(t.getTitle());
+            t.setDescription(t.getDescription());
+            t.setDate(t.getDate());
+            this.taskRepository.save(t);
+        }
     }
 
     @Override
     public void createSubTask(long id, SubTask subTask) {
-        Task task = this.findOne(id);
-        subTask.setTask(task);
+        Task t = this.taskRepository.findById(id).orElse(null);
+        subTask.setTask(t);
         this.subTaskRepository.save(subTask);
     }
 
