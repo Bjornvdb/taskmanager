@@ -82,5 +82,4 @@ public class TaskService implements TaskServiceI {
             this.subTaskRepository.save(sub);
         }
     }
-
 }
