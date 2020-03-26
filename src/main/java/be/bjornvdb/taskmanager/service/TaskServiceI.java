@@ -1,5 +1,6 @@
 package be.bjornvdb.taskmanager.service;
 
+import be.bjornvdb.taskmanager.dto.SubTaskDTO;
 import be.bjornvdb.taskmanager.dto.TaskDTO;
 import be.bjornvdb.taskmanager.model.SubTask;
 import be.bjornvdb.taskmanager.model.Task;
@@ -11,5 +12,5 @@ public interface TaskServiceI {
     TaskDTO findOne(long id);
     void add(TaskDTO taskDTO);
     void update(TaskDTO taskDTO);
-    void createSubTask(long id, SubTask task);
+    void createSubTask(long id, SubTaskDTO task);
 }

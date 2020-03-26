@@ -67,7 +67,7 @@ public class TaskController {
     }
 
     @PostMapping("{id}/sub/create")
-    public String createSubTask(@PathVariable long id, @ModelAttribute @Valid SubTask subTaskDTO, BindingResult bindingResult) {
+    public String createSubTask(@PathVariable long id, @ModelAttribute @Valid SubTaskDTO subTaskDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "subTaskForm";
         this.taskService.createSubTask(id, subTaskDTO);
         return "redirect:/tasks/" + id;

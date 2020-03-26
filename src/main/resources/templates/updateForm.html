@@ -11,7 +11,7 @@
     <div th:replace="general.html :: nav"></div>
     <div class="w-75 mx-auto mt-2">
         <h3 class="mb-3">Update Task</h3>
-        <form th:if="${task}" method="post" action="/tasks/edit" th:object="${task}">
+        <form th:if="${taskDTO}" method="post" action="/tasks/edit" th:object="${taskDTO}">
             <input type="hidden" th:field="*{id}">
             <div class="form-group row">
                 <label for="title" class="col-sm-2 col-form-label">Title:</label>
@@ -30,13 +30,13 @@
             <div class="form-group row">
                 <label for="date" class="col-sm-2 col-form-label">Due date:</label>
                 <div class="col-sm-10">
-                    <input th:value="${task.getDate()}" name="date" type="datetime-local" class="form-control bg-black text-white">
+                    <input th:value="${taskDTO.getDate()}" name="date" type="datetime-local" class="form-control bg-black text-white">
                     <p class="text-white mt-1" th:errors="*{date}"></p>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary w-100">Submit</button>
         </form>
-        <div th:if="${task == null}">
+        <div th:if="${taskDTO == null}">
             <h3>Task not found</h3>
         </div>
     </div>

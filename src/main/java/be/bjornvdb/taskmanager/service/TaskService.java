@@ -1,6 +1,7 @@
 package be.bjornvdb.taskmanager.service;
 
 
+import be.bjornvdb.taskmanager.dto.SubTaskDTO;
 import be.bjornvdb.taskmanager.dto.TaskDTO;
 import be.bjornvdb.taskmanager.model.SubTask;
 import be.bjornvdb.taskmanager.model.Task;
@@ -63,18 +64,23 @@ public class TaskService implements TaskServiceI {
     public void update(TaskDTO taskDTO) {
         Task t = this.taskRepository.findById(taskDTO.getId()).orElse(null);
         if (t != null) {
-            t.setTitle(t.getTitle());
-            t.setDescription(t.getDescription());
-            t.setDate(t.getDate());
+            t.setTitle(taskDTO.getTitle());
+            t.setDescription(taskDTO.getDescription());
+            t.setDate(taskDTO.getDate());
             this.taskRepository.save(t);
         }
     }
 
     @Override
-    public void createSubTask(long id, SubTask subTask) {
+    public void createSubTask(long id, SubTaskDTO subTask) {
+        SubTask sub = new SubTask();
+        sub.setTitle(subTask.getTitle());
+        sub.setDescription(subTask.getDescription());
         Task t = this.taskRepository.findById(id).orElse(null);
-        subTask.setTask(t);
-        this.subTaskRepository.save(subTask);
+        if (t != null) {
+            sub.setTask(t);
+            this.subTaskRepository.save(sub);
+        }
     }
 
 }
