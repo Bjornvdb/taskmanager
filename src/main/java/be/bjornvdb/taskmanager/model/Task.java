@@ -30,7 +30,7 @@ public class Task {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy = "task", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     private List<SubTask> subTasks;
 
     @CreationTimestamp

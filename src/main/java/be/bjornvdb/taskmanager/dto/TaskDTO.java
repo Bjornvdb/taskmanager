@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDTO {
@@ -27,7 +28,9 @@ public class TaskDTO {
 
     private List<SubTask> subTasks;
 
-    public TaskDTO() {}
+    public TaskDTO() {
+        this.subTasks = new ArrayList<>();
+    }
 
     public String getTitle() {
         return title;

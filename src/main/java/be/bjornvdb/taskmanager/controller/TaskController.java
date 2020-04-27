@@ -3,9 +3,7 @@ package be.bjornvdb.taskmanager.controller;
 
 import be.bjornvdb.taskmanager.dto.SubTaskDTO;
 import be.bjornvdb.taskmanager.dto.TaskDTO;
-import be.bjornvdb.taskmanager.model.SubTask;
-import be.bjornvdb.taskmanager.model.Task;
-import be.bjornvdb.taskmanager.service.TaskService;
+import be.bjornvdb.taskmanager.service.TaskServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,17 +17,17 @@ import javax.validation.Valid;
 public class TaskController {
 
     @Autowired
-    private TaskService taskService;
+    private TaskServiceImpl taskServiceImpl;
 
     @GetMapping()
     public String getTasks(Model model) {
-        model.addAttribute("tasks", this.taskService.findAll());
+        model.addAttribute("tasks", this.taskServiceImpl.findAll());
         return "tasks";
     }
 
     @GetMapping("/{id}")
     public String getTask(@PathVariable long id, Model model) {
-        model.addAttribute("task", this.taskService.findOne(id));
+        model.addAttribute("task", this.taskServiceImpl.findOne(id));
         return "task";
     }
 
@@ -42,20 +40,20 @@ public class TaskController {
     @PostMapping()
     public String createTask(@ModelAttribute @Valid TaskDTO taskDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "form";
-        this.taskService.add(taskDTO);
+        this.taskServiceImpl.add(taskDTO);
         return "redirect:/tasks";
     }
 
     @GetMapping("/edit/{id}")
     public String updateTaskForm(@PathVariable long id, Model model) {
-        model.addAttribute("taskDTO", this.taskService.findOne(id));
+        model.addAttribute("taskDTO", this.taskServiceImpl.findOne(id));
         return "updateForm";
     }
 
     @PostMapping("/edit")
     public String updateTask(@ModelAttribute @Valid TaskDTO taskDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "updateForm";
-        this.taskService.update(taskDTO);
+        this.taskServiceImpl.update(taskDTO);
         return "redirect:/tasks/" + taskDTO.getId();
     }
 
@@ -69,7 +67,7 @@ public class TaskController {
     @PostMapping("{id}/sub/create")
     public String createSubTask(@PathVariable long id, @ModelAttribute @Valid SubTaskDTO subTaskDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "subTaskForm";
-        this.taskService.createSubTask(id, subTaskDTO);
+        this.taskServiceImpl.createSubTask(id, subTaskDTO);
         return "redirect:/tasks/" + id;
     }
 }
