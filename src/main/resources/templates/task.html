@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Task</title>
+    <title th:text="#{task}"></title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
@@ -11,48 +11,47 @@
     <div class="w-75 mx-auto mt-2">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <a href="/tasks">
-                <button type="button" class="btn btn-primary">
-                    Back
-                </button>
+                <button type="button" class="btn btn-primary" th:text="#{back}"></button>
             </a>
-            <h3 class="ml">Task detail</h3>
+            <h3 class="ml" th:text="#{task} + ' detail'"></h3>
             <div th:if="${task}">
                 <a th:href="${task.id} + '/sub/create'">
-                    <button type="button" class="btn btn-success">
-                        Create SubTask
-                    </button>
+                    <button type="button" class="btn btn-success" th:text="#{createSubTask}"></button>
                 </a>
             </div>
         </div>
         <ul class="list-group mb-2" th:if="${task}">
             <li class="list-group-item bg-black text-white">
-                <b>Title: </b>
+                <b th:text="#{title} + ': '"></b>
                 <span th:text="${task.title}"></span>
             </li>
             <li class="list-group-item bg-black text-white">
-                <b>Description: </b>
+                <b th:text="#{description} + ': '"></b>
                 <span th:text="${task.description}"></span>
             </li>
             <li class="list-group-item bg-black text-white">
-                <b>Due Date: </b>
+                <b th:text="#{dueDate} + ': '"></b>
                 <span th:text="${task.getFormattedDate()}"></span>
             </li>
         </ul>
         <div class="mt-4" th:if="${task != null && !#arrays.isEmpty(task.subTasks)}">
-            <h3 class="text-center">Sub Tasks</h3>
+            <h3 class="text-center" th:text="#{subTasks}"></h3>
             <ul th:each="subtask : ${task.subTasks}" class="list-group mb-3">
                 <li class="list-group-item bg-black text-white">
-                    <b>Title: </b>
+                    <b th:text="#{title} + ': '"></b>
                     <span th:text="${subtask.title}"></span>
                 </li>
                 <li class="list-group-item bg-black text-white">
-                    <b>Description: </b>
+                    <b th:text="#{description} + ': '"></b>
                     <span th:text="${subtask.description}"></span>
                 </li>
             </ul>
         </div>
+        <div th:if="${task != null && #arrays.isEmpty(task.subTasks)}">
+            <h3 th:text="#{noSubTasks}"></h3>
+        </div>
         <div th:if="${task == null}">
-            <h3>Task not found</h3>
+            <h3 th:text="#{taskNotFound}"></h3>
         </div>
     </div>
 </body>

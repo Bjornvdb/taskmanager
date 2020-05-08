@@ -6,15 +6,25 @@
 </head>
 <body>
     <nav th:fragment="nav" class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a style="cursor: default" class="navbar-brand" href="javascript:">Task Manager</a>
+        <a style="cursor: default" class="navbar-brand" href="javascript:" th:text="#{taskManager}"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/tasks">Tasks <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/tasks" th:text="#{tasks}"><span class="sr-only">(current)</span></a>
             </div>
         </div>
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" id="nl">Nederlands <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" id="en">English <span class="sr-only">(current)</span></a>
+        </div>
+        <script>
+            // not good practice putting script here, I know
+            let { origin, pathname, search } = window.location
+            document.getElementById('nl').setAttribute('href', origin + pathname + '?lang=nl')
+            document.getElementById('en').setAttribute('href', origin + pathname + '?lang=en')
+        </script>
     </nav>
 </body>
 </html>
