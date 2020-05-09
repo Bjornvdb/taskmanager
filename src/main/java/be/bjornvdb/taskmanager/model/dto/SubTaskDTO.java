@@ -1,10 +1,9 @@
-package be.bjornvdb.taskmanager.dto;
+package be.bjornvdb.taskmanager.model.dto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class SubTaskDTO {
-
     private long id;
 
     @NotNull

@@ -1,10 +1,10 @@
 package be.bjornvdb.taskmanager.controller;
 
 
-import be.bjornvdb.taskmanager.dto.SubTaskDTO;
-import be.bjornvdb.taskmanager.dto.TaskDTO;
-import be.bjornvdb.taskmanager.service.TaskServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import be.bjornvdb.taskmanager.model.dto.SubTaskDTO;
+import be.bjornvdb.taskmanager.model.dto.TaskDTO;
+import be.bjornvdb.taskmanager.model.entity.Task;
+import be.bjornvdb.taskmanager.model.service.TaskServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,9 +15,11 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/tasks")
 public class TaskController {
+    private final TaskServiceImpl taskServiceImpl;
 
-    @Autowired
-    private TaskServiceImpl taskServiceImpl;
+    public TaskController(TaskServiceImpl taskServiceImpl) {
+        this.taskServiceImpl = taskServiceImpl;
+    }
 
     @GetMapping()
     public String getTasks(Model model) {
@@ -37,7 +39,7 @@ public class TaskController {
         return "form";
     }
 
-    @PostMapping()
+    @PostMapping("/create")
     public String createTask(@ModelAttribute @Valid TaskDTO taskDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "form";
         this.taskServiceImpl.add(taskDTO);

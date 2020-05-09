@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <div th:replace="general.html :: nav"></div>
+    <div th:replace="fragments/general.html :: nav"></div>
     <div class="w-75 mx-auto mt-2">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <a href="/tasks">
@@ -15,7 +15,7 @@
             </a>
             <h3 class="ml" th:text="#{task} + ' detail'"></h3>
             <div th:if="${task}">
-                <a th:href="${task.id} + '/sub/create'">
+                <a th:href="@{${task.id} + '/sub/create'}">
                     <button type="button" class="btn btn-success" th:text="#{createSubTask}"></button>
                 </a>
             </div>
@@ -48,7 +48,7 @@
             </ul>
         </div>
         <div th:if="${task != null && #arrays.isEmpty(task.subTasks)}">
-            <h3 th:text="#{noSubTasks}"></h3>
+            <h4 th:text="#{noSubTasks}"></h4>
         </div>
         <div th:if="${task == null}">
             <h3 th:text="#{taskNotFound}"></h3>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,12 +12,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/tasks" th:text="#{tasks}"><span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" th:href="@{/tasks}" th:text="#{tasks}"><span class="sr-only">(current)</span></a>
             </div>
         </div>
         <div class="navbar-nav">
             <a class="nav-item nav-link" id="nl">Nederlands <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" id="en">English <span class="sr-only">(current)</span></a>
+            <a sec:authorize="!isAuthenticated()" th:text="#{login}" th:href="@{/login}" class="nav-item nav-link"><span class="sr-only">(current)</span></a>
+            <a sec:authorize="!isAuthenticated()" th:text="#{register}" th:href="@{/register}" class="nav-item nav-link"><span class="sr-only">(current)</span></a>
+            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                <button class="btn btn-primary ml-2" th:text="#{logout}" type="submit">Logout</button>
+            </form>
         </div>
         <script>
             // not good practice putting script here, I know

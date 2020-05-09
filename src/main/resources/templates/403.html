@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{tasks}"></title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="fragments/general.html :: nav"></div>
+<div class="w-75 mx-auto mt-2">
+    <h3 th:text="#{accessDenied}">Access Denied</h3>
+    <p class="mt-4 text-white font-rem-1" th:text="#{notAllowed}">You are not allowed to perform that action!</p>
+</div>
+</body>
+</html>

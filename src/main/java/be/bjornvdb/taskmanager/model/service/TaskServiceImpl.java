@@ -1,13 +1,12 @@
-package be.bjornvdb.taskmanager.service;
+package be.bjornvdb.taskmanager.model.service;
 
 
-import be.bjornvdb.taskmanager.dto.SubTaskDTO;
-import be.bjornvdb.taskmanager.dto.TaskDTO;
-import be.bjornvdb.taskmanager.model.SubTask;
-import be.bjornvdb.taskmanager.model.Task;
-import be.bjornvdb.taskmanager.repository.SubTaskRepository;
-import be.bjornvdb.taskmanager.repository.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import be.bjornvdb.taskmanager.model.dto.SubTaskDTO;
+import be.bjornvdb.taskmanager.model.dto.TaskDTO;
+import be.bjornvdb.taskmanager.model.entity.SubTask;
+import be.bjornvdb.taskmanager.model.entity.Task;
+import be.bjornvdb.taskmanager.model.repository.SubTaskRepository;
+import be.bjornvdb.taskmanager.model.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,36 +14,24 @@ import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
+    private final TaskRepository taskRepository;
+    private final SubTaskRepository subTaskRepository;
 
-    @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private SubTaskRepository subTaskRepository;
+    public TaskServiceImpl(TaskRepository taskRepository, SubTaskRepository subTaskRepository) {
+        this.taskRepository = taskRepository;
+        this.subTaskRepository = subTaskRepository;
+    }
 
     @Override
     public List<TaskDTO> findAll() {
-        return this.taskRepository.findAll().stream().map(t -> {
-            TaskDTO dto = new TaskDTO();
-            dto.setId(t.getId());
-            dto.setTitle(t.getTitle());
-            dto.setDescription(t.getDescription());
-            dto.setDate(t.getDate());
-            return dto;
-        }).collect(Collectors.toList());
+        return this.taskRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
     public TaskDTO findOne(long id) {
         Task t = this.taskRepository.findById(id).orElse(null);
         if (t != null) {
-            TaskDTO taskDTO = new TaskDTO();
-            taskDTO.setId(t.getId());
-            taskDTO.setTitle(t.getTitle());
-            taskDTO.setDescription(t.getDescription());
-            taskDTO.setDate(t.getDate());
-            taskDTO.setSubTasks(t.getSubTasks());
-            return taskDTO;
+            return this.convertToDTO(t);
         }
         return null;
     }
@@ -79,5 +66,15 @@ public class TaskServiceImpl implements TaskService {
             sub.setTask(t);
             this.subTaskRepository.save(sub);
         }
+    }
+
+    private TaskDTO convertToDTO(Task t) {
+        TaskDTO taskDTO = new TaskDTO();
+        taskDTO.setId(t.getId());
+        taskDTO.setTitle(t.getTitle());
+        taskDTO.setDescription(t.getDescription());
+        taskDTO.setDate(t.getDate());
+        taskDTO.setSubTasks(t.getSubTasks());
+        return taskDTO;
     }
 }

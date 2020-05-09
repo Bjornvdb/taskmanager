@@ -1,6 +1,6 @@
-package be.bjornvdb.taskmanager.dto;
+package be.bjornvdb.taskmanager.model.dto;
 
-import be.bjornvdb.taskmanager.model.SubTask;
+import be.bjornvdb.taskmanager.model.entity.SubTask;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDTO {
-
     private long id;
 
     @NotNull

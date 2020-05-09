@@ -1,4 +1,4 @@
-package be.bjornvdb.taskmanager.model;
+package be.bjornvdb.taskmanager.model.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

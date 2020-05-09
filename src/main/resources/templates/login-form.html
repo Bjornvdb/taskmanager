@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--suppress XmlInvalidId -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Task Manager</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+
+    </style>
+</head>
+<body>
+<div th:replace="fragments/general.html :: nav"></div>
+    <div class="w-75 mx-auto mt-2">
+        <h3 th:text="#{login}"></h3>
+        <form method="post" th:action="@{/login}">
+            <div class="form-group row">
+                <label for="username" class="col-sm-2 col-form-label" th:text="#{username} + ': '"></label>
+                <div class="col-sm-10">
+                    <input name="username" type="text" class="form-control bg-black text-white">
+                    <p class="text-white mt-1"></p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="description" class="col-sm-2 col-form-label" th:text="#{password} + ': '"></label>
+                <div class="col-sm-10">
+                    <input type="password" name="password" class="form-control bg-black text-white">
+                    <p class="text-white mt-1"></p>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100" th:text="#{login}"></button>
+        </form>
+        <p th:if="${param.logout}" class="text-white font-rem-1 mt-4" th:text="#{loggedOut}"></p>
+        <p th:if="${param.error}" class="text-white font-rem-1 mt-4" th:text="#{invalidCredentials}"></p>
+    </div>
+</body>
+</html>

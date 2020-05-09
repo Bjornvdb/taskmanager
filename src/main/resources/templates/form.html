@@ -8,10 +8,10 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <div th:replace="general.html :: nav"></div>
-    <div class="w-75 mx-auto mt-2 w-">
+    <div th:replace="fragments/general.html :: nav"></div>
+    <div class="w-75 mx-auto mt-2">
         <h3 th:text="#{newTask}"></h3>
-        <form method="post" action="/tasks" th:object="${taskDTO}">
+        <form method="post" th:action="@{/tasks/create}" th:object="${taskDTO}">
             <div class="form-group row">
                 <label for="title" class="col-sm-2 col-form-label" th:text="#{title} + ':'"></label>
                 <div class="col-sm-10">

@@ -1,9 +1,9 @@
 package be.bjornvdb.taskmanager;
 
-import be.bjornvdb.taskmanager.dto.SubTaskDTO;
-import be.bjornvdb.taskmanager.dto.TaskDTO;
-import be.bjornvdb.taskmanager.model.SubTask;
-import be.bjornvdb.taskmanager.service.TaskServiceImpl;
+import be.bjornvdb.taskmanager.model.dto.SubTaskDTO;
+import be.bjornvdb.taskmanager.model.dto.TaskDTO;
+import be.bjornvdb.taskmanager.model.entity.SubTask;
+import be.bjornvdb.taskmanager.model.service.TaskServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
