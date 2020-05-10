@@ -1,5 +1,7 @@
 package be.bjornvdb.taskmanager.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -23,7 +25,8 @@ public class SubTask {
     @NotEmpty
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("subTasks")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id")
     private Task task;
 
@@ -69,10 +72,14 @@ public class SubTask {
         return updatedAt;
     }
 
+    // Zorgt ervoor dat de task niet opnieuw wordt weergegeven
+    // in de lijst van subtasks van de task
+    @JsonIgnore
     public Task getTask() {
         return task;
     }
 
+    @JsonIgnore
     public void setTask(Task task) {
         this.task = task;
     }

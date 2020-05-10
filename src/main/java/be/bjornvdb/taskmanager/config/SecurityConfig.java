@@ -22,8 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/css/**").permitAll()
                 .mvcMatchers("/register").permitAll()
+                // Allowing API calls while not authenticated, do not do this in real life :)
+                .mvcMatchers("/api/**").permitAll()
                 .mvcMatchers(
                         "/tasks/new", "/tasks/create",
                         "/tasks/edit/{id}","/tasks/edit",

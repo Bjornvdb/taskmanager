@@ -1,6 +1,7 @@
 package be.bjornvdb.taskmanager.model.entity;
 
-import be.bjornvdb.taskmanager.model.entity.SubTask;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,6 +33,7 @@ public class Task {
     private LocalDateTime date;
 
     @OneToMany(mappedBy = "task", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+    @JsonIgnoreProperties("task")
     private List<SubTask> subTasks;
 
     @CreationTimestamp
@@ -95,18 +97,11 @@ public class Task {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
+    @JsonIgnore
     public String getFormattedDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d u 'at' h a");
         return date.format(formatter);

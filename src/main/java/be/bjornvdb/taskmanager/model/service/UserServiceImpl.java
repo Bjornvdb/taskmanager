@@ -1,6 +1,5 @@
 package be.bjornvdb.taskmanager.model.service;
 
-import be.bjornvdb.taskmanager.model.UserRole;
 import be.bjornvdb.taskmanager.model.dto.CreateUserDTO;
 import be.bjornvdb.taskmanager.model.dto.UserDTO;
 import be.bjornvdb.taskmanager.model.entity.User;
@@ -34,10 +33,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(CreateUserDTO userDTO) {
+        User userExists = repository.findByUsername(userDTO.getUsername());
+        if (userExists != null) return null;
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setRole(userDTO.getUsername().endsWith("a") ? UserRole.ADMIN : UserRole.USER);
+        user.setRole(userDTO.getUserRole());
         user = repository.save(user);
         return convert(user);
     }

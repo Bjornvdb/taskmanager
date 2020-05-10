@@ -1,6 +1,7 @@
 package be.bjornvdb.taskmanager.controller;
 
 import be.bjornvdb.taskmanager.model.dto.CreateUserDTO;
+import be.bjornvdb.taskmanager.model.dto.UserDTO;
 import be.bjornvdb.taskmanager.model.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +36,10 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "register-form";
         }
-        this.userService.createUser(user);
+        UserDTO addedUser = this.userService.createUser(user);
+
+        if (addedUser == null) return "redirect:/register?error";
+
         return "redirect:/login";
     }
 
